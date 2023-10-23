@@ -35,6 +35,7 @@
 
             <label for="latitude">Latitude</label>
             <input
+              class="input read_only"
               type="text"
               name="latitude"
               id="latitude_input"
@@ -44,6 +45,7 @@
 
             <label for="longitude">Longitude</label>
             <input
+              class="input read_only"
               type="text"
               name="longitude"
               id="longitude_input"
@@ -53,6 +55,7 @@
 
             <label for="name">Name</label>
             <input
+              class="input"
               type="text"
               name="name"
               id="name_input"
@@ -63,6 +66,7 @@
 
             <label for="hashtag">Hashtag</label>
             <input
+              class="input"
               type="text"
               name="hashtag"
               id="hashtag_input"
@@ -71,6 +75,7 @@
             />
 
             <input
+              class="input"
               type="submit"
               name="geotag_submit_button"
               id="geotag_submit_button"
@@ -93,37 +98,40 @@
         >
           <fieldset>
             <legend>Search</legend>
+            <div class="searchdiv">
+              <label for="searchterm">Search term or keywords</label>
+              <input
+                class="input"
+                type="text"
+                name="searchterm"
+                id="searchterm_input"
+                placeholder="e.g. Berlin"
+              />
 
-            <label for="searchterm"></label>
-            <input
-              type="text"
-              name="searchterm"
-              id="searchterm_input"
-              placeholder="e.g. Berlin"
-            />
+              <input
+                type="text"
+                name="latitude"
+                id="latitude_hidden_input"
+                placeholder="49.01379"
+                hidden
+              />
 
-            <input
-              type="text"
-              name="latitude"
-              id="latitude_hidden_input"
-              placeholder="49.01379"
-              hidden
-            />
+              <input
+                type="text"
+                name="longitude"
+                id="longitude_hidden_input"
+                placeholder="8.390071"
+                hidden
+              />
 
-            <input
-              type="text"
-              name="longitude"
-              id="longitude_hidden_input"
-              placeholder="8.390071"
-              hidden
-            />
-
-            <input
-              type="submit"
-              name="searchterm_submit_button"
-              id="searchterm_submit_button"
-              value="Search"
-            />
+              <input
+                class="input"
+                type="submit"
+                name="searchterm_submit_button"
+                id="searchterm_submit_button"
+                value="Search"
+              />
+            </div>
           </fieldset>
         </form>
         <!-- ############### VS1Lab 1a Form 2 End -->

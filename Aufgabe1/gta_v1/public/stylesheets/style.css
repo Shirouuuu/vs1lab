@@ -105,12 +105,13 @@ a {
 
 /* ### TODO ### Styles for Header Component */
 
-header {
+.header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 2.5rem 2rem;
   background-color: rgba(239, 239, 239, 1);
+  border-bottom: 1px solid rgba(3, 3, 3, 0.129);
 }
 
 header img {
@@ -120,38 +121,176 @@ header img {
 /* ### TODO ### Styles for Main Component */
 .main {
   width: 100%;
+  padding: 3rem 3vw;
 }
-/* ... your code here ... */
+
+.read_only {
+  border: 1px solid rgba(0, 0, 0, 0.184);
+  background-color: rgba(239, 239, 239, 0.413);
+}
+
+.read_only:focus {
+  outline: none;
+}
 
 /* ### TODO ### Styles for Tagging component */
-#tag-form fieldset > * {
-  /* targets every element of fieldset */
-  display: block;
+
+.tagging h2 {
+  margin-bottom: 1rem;
+}
+
+#tag-form fieldset {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem 1rem;
+  border: 1px solid rgba(0, 0, 0, 0.184);
+}
+
+.input {
+  height: 2.2rem;
+  padding: 0.5rem;
+}
+
+#hashtag_input {
+  margin-bottom: 0.3rem;
+}
+
+#geotag_submit_button {
+  border: 1px solid rgba(0, 0, 0, 0.184);
 }
 
 /* ### TODO ### Styles for Discovery component */
 
-/* ... your code here ... */
+.discovery h2 {
+  margin-bottom: 1rem;
+}
+
+.discovery__search fieldset {
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  padding: 1rem;
+  border: 1px solid rgba(0, 0, 0, 0.184);
+}
+
+.searchdiv {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 20vw;
+  min-width: 180px;
+}
+
+#searchterm_input {
+  margin-bottom: 0.3rem;
+}
+
+#searchterm_submit_button {
+  border: 1px solid rgba(0, 0, 0, 0.184);
+  color: rgb(125, 124, 124);
+}
+.discovery__wrapper {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
+}
+
+.discovery__results {
+  display: flex;
+  width: 25vw; /* shrinks list according to display size */
+  flex-direction: column;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.discovery__results li {
+  width: 100%;
+  padding: 1rem;
+  background-color: rgba(239, 239, 239, 1);
+  border: 1px solid rgba(0, 0, 0, 0.184);
+  color: #00b7ff;
+  list-style: none;
+}
+
+.discovery__map {
+  display: flex;
+  flex-direction: column;
+}
+
+.discovery__map img {
+  width: 40vw; /* size changes dynamically with viewport */
+}
 
 /* ### TODO ### Styles for Footer Component */
 
-/* ... your code here ... */
+.footer {
+  padding: 2rem;
+  background-color: rgba(239, 239, 239, 1);
+  border-top: 1px solid rgba(3, 3, 3, 0.129);
+}
 
 /* ### TODO ### Media Queries */
 
+/* Small devices header adjustment*/
+@media only screen and (max-width: 470px) {
+  .header {
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    gap: 0.5rem;
+  }
+  .header img {
+    width: 2rem;
+  }
+}
+
 /* Medium devices (landscape tablets, 768px and up) */
 @media only screen and (max-width: 768px) {
-  /* For mobile phones: */
   [class*="col-"] {
     width: 100%;
   }
-}
-/* Large devices (laptops/desktops, 992px and up) */
-@media only screen and (min-width: 992px) {
 
-}
+  .main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
 
-/* Extra large devices (large laptops and desktops, 1200px and up) */
-@media only screen and (min-width: 1200px) {
+  .input {
+    height: 2.5rem;
+  }
 
+  /* ### TODO ### Styles for Tagging component */
+  .tagging {
+    margin-bottom: 1rem;
+  }
+  /* ### TODO ### Styles for Discovery component */
+  .searchdiv {
+    width: 100%; /* full width for input search elmts when display size less than 768px */
+    min-width: none;
+  }
+
+  .discovery__wrapper {
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .discovery__taglist {
+    display: flex;
+    justify-content: center;
+  }
+  .discovery__results {
+    width: 100%;
+    padding-bottom: 2rem;
+  }
+
+  .discovery__results li {
+    text-align: center;
+  }
+
+  .discovery__map img {
+    width: 100%;
+  }
 }
