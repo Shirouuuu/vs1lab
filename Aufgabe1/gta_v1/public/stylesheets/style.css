@@ -172,7 +172,8 @@ header img {
   margin-bottom: 1rem;
 }
 
-.discovery__search fieldset { /* display search section as column view (no impact currently)*/
+.discovery__search fieldset {
+  /* display search section as column view (no impact currently)*/
   display: flex;
   flex-direction: column;
   justify-content: left;
@@ -205,12 +206,12 @@ header img {
 .discovery__results {
   display: flex;
   width: 25vw; /* shrinks list according to display size */
-  flex-direction: column;  /* displays li elmts in col view*/
+  flex-direction: column; /* displays li elmts in col view*/
   justify-content: center;
   gap: 1rem;
 }
 
-.discovery__results li { 
+.discovery__results li {
   width: 100%;
   padding: 1rem;
   background-color: rgba(239, 239, 239, 1);
@@ -240,7 +241,8 @@ header img {
 
 /* Small devices header adjustment*/
 @media only screen and (max-width: 470px) {
-  .header { /* defines behavior for header in really small viewport */
+  .header {
+    /* defines behavior for header in really small viewport */
     flex-wrap: wrap;
     flex-direction: row;
     align-items: center;
@@ -254,11 +256,13 @@ header img {
 
 /* Medium devices (landscape tablets, 768px and up) */
 @media only screen and (max-width: 768px) {
-  [class*="col-"] { /* selects every html elmt with "col-" in class parameter -> tagging and discovery get 100% with */ 
+  [class*="col-"] {
+    /* selects every html elmt with "col-" in class parameter -> tagging and discovery get 100% with */
     width: 100%;
   }
 
-  .main { /* when smaller viewport -> one column view with many rows */
+  .main {
+    /* when smaller viewport -> one column view with many rows */
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -284,7 +288,7 @@ header img {
   }
 
   .discovery__taglist {
-    display: flex; 
+    display: flex;
     justify-content: center; /* displays list elemts in center*/
   }
   .discovery__results {
