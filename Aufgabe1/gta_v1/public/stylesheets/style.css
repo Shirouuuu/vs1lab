@@ -107,8 +107,8 @@ a {
 
 .header {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  justify-content: space-between; /* space is distributed evenly in between of the elmts */
+  align-items: center; /* vertical align items in flexbox */
   padding: 2.5rem 2rem;
   background-color: rgba(239, 239, 239, 1);
   border-bottom: 1px solid rgba(3, 3, 3, 0.129);
@@ -125,12 +125,13 @@ header img {
 }
 
 .read_only {
+  /* greys input elmt out */
   border: 1px solid rgba(0, 0, 0, 0.184);
   background-color: rgba(239, 239, 239, 0.413);
 }
 
 .read_only:focus {
-  outline: none;
+  outline: none; /* When clicking on the input element no outline is shown */
 }
 
 /* ### TODO ### Styles for Tagging component */
@@ -141,8 +142,8 @@ header img {
 
 #tag-form fieldset {
   display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+  flex-direction: column; /* display elemts in col view */
+  gap: 0.5rem; /* gap between elmts */
   padding: 1rem 1rem;
   border: 1px solid rgba(0, 0, 0, 0.184);
 }
@@ -150,6 +151,11 @@ header img {
 .input {
   height: 2.2rem;
   padding: 0.5rem;
+}
+
+#latitude_input,
+#longitude_input {
+  cursor: default; /* Makes cursor display as standard and not text-select */
 }
 
 #hashtag_input {
@@ -166,7 +172,7 @@ header img {
   margin-bottom: 1rem;
 }
 
-.discovery__search fieldset {
+.discovery__search fieldset { /* display search section as column view (no impact currently)*/
   display: flex;
   flex-direction: column;
   justify-content: left;
@@ -178,7 +184,7 @@ header img {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  width: 20vw;
+  width: 20vw; /* makes width of search div depending on viewsize so it doesnt take full width in discovery_search container*/
   min-width: 180px;
 }
 
@@ -199,23 +205,23 @@ header img {
 .discovery__results {
   display: flex;
   width: 25vw; /* shrinks list according to display size */
-  flex-direction: column;
+  flex-direction: column;  /* displays li elmts in col view*/
   justify-content: center;
   gap: 1rem;
 }
 
-.discovery__results li {
+.discovery__results li { 
   width: 100%;
   padding: 1rem;
   background-color: rgba(239, 239, 239, 1);
   border: 1px solid rgba(0, 0, 0, 0.184);
   color: #00b7ff;
-  list-style: none;
+  list-style: none; /* removes circle before list elmt*/
 }
 
 .discovery__map {
   display: flex;
-  flex-direction: column;
+  flex-direction: column; /* places "results" below map */
 }
 
 .discovery__map img {
@@ -234,7 +240,7 @@ header img {
 
 /* Small devices header adjustment*/
 @media only screen and (max-width: 470px) {
-  .header {
+  .header { /* defines behavior for header in really small viewport */
     flex-wrap: wrap;
     flex-direction: row;
     align-items: center;
@@ -248,18 +254,18 @@ header img {
 
 /* Medium devices (landscape tablets, 768px and up) */
 @media only screen and (max-width: 768px) {
-  [class*="col-"] {
+  [class*="col-"] { /* selects every html elmt with "col-" in class parameter -> tagging and discovery get 100% with */ 
     width: 100%;
   }
 
-  .main {
+  .main { /* when smaller viewport -> one column view with many rows */
     display: flex;
     flex-direction: column;
     justify-content: center;
   }
 
   .input {
-    height: 2.5rem;
+    height: 2.5rem; /* bigger input size for touchscreens*/
   }
 
   /* ### TODO ### Styles for Tagging component */
@@ -273,13 +279,13 @@ header img {
   }
 
   .discovery__wrapper {
-    flex-direction: column;
+    flex-direction: column; /* search results list and map will be displayed in column view*/
     justify-content: center;
   }
 
   .discovery__taglist {
-    display: flex;
-    justify-content: center;
+    display: flex; 
+    justify-content: center; /* displays list elemts in center*/
   }
   .discovery__results {
     width: 100%;
@@ -287,7 +293,7 @@ header img {
   }
 
   .discovery__results li {
-    text-align: center;
+    text-align: center; /* displays text of list elemts in center*/
   }
 
   .discovery__map img {
