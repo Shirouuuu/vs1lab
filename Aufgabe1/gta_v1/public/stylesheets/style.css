@@ -9,103 +9,30 @@
 /* Global styling */
 
 html {
-    box-sizing: border-box;
-  }
-  
-  * {
-    margin: 0;
-    padding: 0;
-  
-    /* This approach prevents issues with 3rd party content-box components */
-    box-sizing: inherit;
-  }
-  
-  
-  /* Variables (example: see declaration for "a" below) */
-  
-  :root {
-    --link-color: #00B7FF;
-    --background-color: #efefef;
-    --border-color: #cdcdcd;
-    --gray-color: #666;
-  }
-  
-  
-  /* HTML element styles */
-  
-  body {
-    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-  }
-  
-  
-  /* ### TODO ### Styles for other HTML elements */
-  
-  /* header */
-  header {
-    display: flex;
-    flex-direction: column wrap;
-    justify-content: space-around;
-    align-items: center;
-    background-color: lightgrey;
-    padding: 3rem;
-  }
-  .header img {
-    width: 4rem;
-    height: auto;
-  }
-  h1 {
-    font-size: 2.5rem;
-    font-weight: 700;
-  }
-  /*Links on right side*/
-  a {
-    font-size: 1.25rem;
-    color: var(--link-color);
-  }
-  
+  box-sizing: border-box;
+}
 
+* {
+  margin: 0;
+  padding: 0;
 
-  /* main */
-  main {
-    display: flex;
-    flex-direction: row nowrap;
-    justify-content: space-around;
-    align-items: top;
-  }
+  /* This approach prevents issues with 3rd party content-box components */
+  box-sizing: inherit;
+}
 
-  @media only screen and (max-width: 850px) {
-    main {
-      display: flex;
-      flex-flow: column wrap;
-      justify-content: flex-start ;
-      align-items: center;
-      width: 100%;
-    }
-  }
+/* Variables (example: see declaration for "a" below) */
 
-  /*Styles for both columns: */
-  h2 {
-  font-size: 2rem;
-  font-weight: 700;
-  text-align: left;
-  padding-top: 1rem;
-  padding-bottom: 0.5rem;
-  }
+:root {
+  --link-color: #00b7ff;
+  --background-color: #efefef;
+  --border-color: #cdcdcd;
+  --gray-color: #666;
+}
 
-  fieldset {
-    border: solid;
-    padding: 1rem;
-    border-color: lightgray;
-    border-width: 0.1rem;
-   }
+/* HTML element styles */
 
-
-  legend {
-  font-size: 1rem;
-  font-weight: 700;
-  }
-
-  label {
+body {
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
   display: flex;
   flex-flow: colum nowrap;
   font-size: 1rem;
@@ -188,119 +115,265 @@ html {
     color: var(--link-color);
   }
 
-  div.discovery__map {
-    height: 30rem;
-    width: 30rem;
-    padding-left: 1rem;
-   }
-  
+/* ### TODO ### Styles for other HTML elements */
+
+/* ... your code here ... */
+
+/* Grid styles (no changes required) */
+
+.row {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  flex: 1;
+}
+
+.col-1 {
+  width: calc(8.33% - 1rem);
+}
+
+.col-2 {
+  width: calc(16.66% - 1rem);
+}
+
+.col-3 {
+  width: calc(25% - 1rem);
+}
+
+.col-4 {
+  width: calc(33.33% - 1rem);
+}
+
+.col-5 {
+  width: calc(41.66% - 1rem);
+}
+
+.col-6 {
+  width: calc(50% - 1rem);
+}
+
+.col-7 {
+  width: calc(58.33% - 1rem);
+}
+
+.col-8 {
+  width: calc(66.66% - 1rem);
+}
+
+.col-9 {
+  width: calc(75% - 1rem);
+}
+
+.col-10 {
+  width: calc(83.33% - 1rem);
+}
+
+.col-11 {
+  width: calc(91.66% - 1rem);
+}
+
+.col-12 {
+  width: calc(100% - 1rem);
+}
+
+/* ### TODO ### Styles for Header Component */
+
+.header {
+  display: flex;
+  justify-content: space-between; /* space is distributed evenly in between of the elmts */
+  align-items: center; /* vertical align items in flexbox */
+  padding: 2.5rem 2rem;
+  background-color: rgba(239, 239, 239, 1);
+  border-bottom: 1px solid rgba(3, 3, 3, 0.129);
+}
+
+header img {
+  width: 3rem;
+}
+
+/* ### TODO ### Styles for Main Component */
+.main {
+  width: 100%;
+  padding: 3rem 3vw;
+}
+
+.read_only {
+  /* greys input elmt out */
+  border: 1px solid rgba(0, 0, 0, 0.184);
+  background-color: rgba(239, 239, 239, 0.413);
+}
+
+.read_only:focus {
+  outline: none; /* When clicking on the input element no outline is shown */
+}
+
+/* ### TODO ### Styles for Tagging component */
+
+.tagging h2 {
+  margin-bottom: 1rem;
+}
+
+#tag-form fieldset {
+  display: flex;
+  flex-direction: column; /* display elemts in col view */
+  gap: 0.5rem; /* gap between elmts */
+  padding: 1rem 1rem;
+  border: 1px solid rgba(0, 0, 0, 0.184);
+}
+
+.input {
+  height: 2.2rem;
+  padding: 0.5rem;
+}
+
+#latitude_input,
+#longitude_input {
+  cursor: default; /* Makes cursor display as standard and not text-select */
+}
+
+#hashtag_input {
+  margin-bottom: 0.3rem;
+}
+
+#geotag_submit_button {
+  border: 1px solid rgba(0, 0, 0, 0.184);
+}
+
+/* ### TODO ### Styles for Discovery component */
+
+.discovery h2 {
+  margin-bottom: 1rem;
+}
+
+.discovery__search fieldset {
+  /* display search section as column view (no impact currently)*/
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  padding: 1rem;
+  border: 1px solid rgba(0, 0, 0, 0.184);
+}
+
+.searchdiv {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 20vw; /* makes width of search div depending on viewsize so it doesnt take full width in discovery_search container*/
+  min-width: 180px;
+}
+
+#searchterm_input {
+  margin-bottom: 0.3rem;
+}
+
+#searchterm_submit_button {
+  border: 1px solid rgba(0, 0, 0, 0.184);
+  color: rgb(125, 124, 124);
+}
+.discovery__wrapper {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
+}
+
+.discovery__results {
+  display: flex;
+  width: 25vw; /* shrinks list according to display size */
+  flex-direction: column; /* displays li elmts in col view*/
+  justify-content: center;
+  gap: 1rem;
+}
+
+.discovery__results li {
+  width: 100%;
+  padding: 1rem;
+  background-color: rgba(239, 239, 239, 1);
+  border: 1px solid rgba(0, 0, 0, 0.184);
+  color: #00b7ff;
+  list-style: none; /* removes circle before list elmt*/
+}
+
+.discovery__map {
+  display: flex;
+  flex-direction: column; /* places "results" below map */
+}
+
+.discovery__map img {
+  width: 40vw; /* size changes dynamically with viewport */
+}
+
+/* ### TODO ### Styles for Footer Component */
+
+.footer {
+  padding: 2rem;
+  background-color: rgba(239, 239, 239, 1);
+  border-top: 1px solid rgba(3, 3, 3, 0.129);
+}
+
+/* ### TODO ### Media Queries */
+
+/* Small devices header adjustment*/
+@media only screen and (max-width: 470px) {
+  .header {
+    /* defines behavior for header in really small viewport */
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    gap: 0.5rem;
+  }
+  .header img {
+    width: 2rem;
+  }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (max-width: 768px) {
+  [class*="col-"] {
+    /* selects every html elmt with "col-" in class parameter -> tagging and discovery get 100% with */
+    width: 100%;
+  }
+
+  .main {
+    /* when smaller viewport -> one column view with many rows */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .input {
+    height: 2.5rem; /* bigger input size for touchscreens*/
+  }
+
+  /* ### TODO ### Styles for Tagging component */
+  .tagging {
+    margin-bottom: 1rem;
+  }
+  /* ### TODO ### Styles for Discovery component */
+  .searchdiv {
+    width: 100%; /* full width for input search elmts when display size less than 768px */
+    min-width: none;
+  }
+
+  .discovery__wrapper {
+    flex-direction: column; /* search results list and map will be displayed in column view*/
+    justify-content: center;
+  }
+
+  .discovery__taglist {
+    display: flex;
+    justify-content: center; /* displays list elemts in center*/
+  }
+  .discovery__results {
+    width: 100%;
+    padding-bottom: 2rem;
+  }
+
+  .discovery__results li {
+    text-align: center; /* displays text of list elemts in center*/
+  }
+
   .discovery__map img {
     width: 100%;
   }
-   span {
-    display: block;
-    font-weight: thin;
-   }
-  
-  
-   /*footer */
-   footer {
-    display: flex;
-    flex-direction: column wrap;
-    justify-content:flex-start;
-    align-items: left;
-    background-color: lightgrey;
-    padding: 2rem;
-    border-top: solid;
-    border-color: #666;
-    border-width: thin;
-   }
-
-
-  /* Grid styles (no changes required) */
-  
-  .row {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    flex: 1;
-  }
-  
-  
-  .col-1 {
-    width: calc(8.33% - 1rem);
-  }
-  
-  .col-2 {
-    width: calc(16.66% - 1rem);
-  }
-  
-  .col-3 {
-    width: calc(25% - 1rem);
-  }
-  
-  .col-4 {
-    width: calc(33.33% - 1rem);
-  }
-  
-  .col-5 {
-    width: calc(41.66% - 1rem);
-  }
-  
-  .col-6 {
-    width: calc(50% - 1rem);
-  }
-  
-  .col-7 {
-    width: calc(58.33% - 1rem);
-  }
-  
-  .col-8 {
-    width: calc(66.66% - 1rem);
-  }
-  
-  .col-9 {
-    width: calc(75% - 1rem);
-  }
-  
-  .col-10 {
-    width: calc(83.33% - 1rem);
-  }
-  
-  .col-11 {
-    width: calc(91.66% - 1rem);
-  }
-  
-  .col-12 {
-    width: calc(100% - 1rem);
-  }
-  
-  
-  /* ### TODO ### Styles for Header Component */
-  
-  /* ... your code here ... */
-  
-  
-  /* ### TODO ### Styles for Main Component */
-  
-  /* ... your code here ... */
-  
-  
-  /* ### TODO ### Styles for Tagging component */
-  
-  /* ... your code here ... */
-  
-  
-  /* ### TODO ### Styles for Discovery component */
-  
-  /* ... your code here ... */
-  
-  
-  /* ### TODO ### Styles for Footer Component */
-  
-  /* ... your code here ... */
-  
-  
-  /* ### TODO ### Media Queries */
-  
-  /* ... your code here ... */
+}
