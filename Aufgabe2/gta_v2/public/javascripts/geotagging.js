@@ -111,13 +111,14 @@ class MapManager {
  * It is called once the page has been fully loaded.
  */
 function updateLocation() {
-  LocationHelper.findLocation(function (helper) { //findLocation return LocationHelper object helper to callback function
-    var latitude = helper.latitude; //saves latitude from helper into var latitude 
-    var longitude = helper.longitude; //saves longitude from helper into var longitude 
+  LocationHelper.findLocation(function (helper) {
+    //findLocation return LocationHelper object helper to callback function
+    var latitude = helper.latitude; //saves latitude from helper into var latitude
+    var longitude = helper.longitude; //saves longitude from helper into var longitude
     document.getElementById("latitude_input").value = latitude; //pass latitude value into latitude input on website
     document.getElementById("longitude_input").value = longitude; //pass longitude value into longitude input on website
     document.getElementById("latitude_hidden_input").value = latitude; //same on hidden input in discovery search
-    document.getElementById("longitude_hidden_input").value = longitude;  //same on hidden input in discovery search
+    document.getElementById("longitude_hidden_input").value = longitude; //same on hidden input in discovery search
     var img = document.getElementById("mapView"); //create var for map img
     let mapmanager = new MapManager("wlvNEFoQ5OCICOpOR62Y4VzcsPDWcZJJ"); // create MapManager object with custom API key
     var mapQuestUrl = mapmanager.getMapUrl(latitude, longitude); //call getMapUrl() with latitude and longitude as arguments
