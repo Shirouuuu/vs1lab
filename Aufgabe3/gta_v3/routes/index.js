@@ -42,7 +42,10 @@ const GeoTagStore = require("../models/geotag-store");
 
 // TODO: extend the following route example if necessary
 router.get("/", (req, res) => {
-  res.render("index", { taglist: [] });
+  res.render("index", { 
+    latitude: '', //DEFINE LATITUDE FOR EJS TEMPLATE
+    longitude: '', //DEFINE LONGITUDE FOR EJS TEMPLATE
+    taglist: [] });
 });
 
 /**
@@ -60,14 +63,23 @@ router.get("/", (req, res) => {
  * by radius around a given location.
  */
 
-// TODO: ... your code here ...
 //ADD GEOTAG FUNCTIONALITY
 const geoTagStore = new GeoTagStore();
 
 router.post("/tagging", (req, res) => {
   geoTagStore.addGeoTag(req.body);
   console.log(req.body);
-  res.redirect("/"); //Redirect to Homepage
+
+  res.render('index', { 
+    latitude: req.body.latitude,
+    longitude: req.body.longitude,
+    taglist: geoTagStore.getNearbyGeoTags(
+      req.body.latitude, 
+      req.body.longitude, 
+      500
+    ) 
+});
+res.redirect("/"); //Redirect to Homepage
 });
 /**
  * Route '/discovery' for HTTP 'POST' requests.
