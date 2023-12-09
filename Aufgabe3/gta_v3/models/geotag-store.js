@@ -48,8 +48,7 @@ class InMemoryGeoTagStore {
     }
   }
 
-  distance(lat1, lon1, lat2, lon2) {
-    //In kilometer
+  distance(lat1, lon1, lat2, lon2) { //Haversine formula to calculate distance between two coordinates on a globe "as the crow flies"
     const r = 6371; // km
     const p = Math.PI / 180;
 
@@ -64,10 +63,9 @@ class InMemoryGeoTagStore {
     return 2 * r * Math.asin(Math.sqrt(a));
   }
 
-  getNearbyGeoTags(GeoTag, desiredProximity) {
+  getNearbyGeoTags(lat1,lon1, desiredProximity) {
     let nearbyGeoTags = [];
-    let lat1 = GeoTag.latitude;
-    let lon1 = GeoTag.longitude;
+
 
     for (let i = 0; i < this.arrayLength(); i++) {
       let currentGeoTag = this.#geotagArray[i];
@@ -81,8 +79,8 @@ class InMemoryGeoTagStore {
     return nearbyGeoTags;
   }
 
-  searchNearbyGeoTags(GeoTag, desiredProximity, keyword) {
-    let nearbyGeoTags = this.getNearbyGeoTags(GeoTag, desiredProximity);
+  searchNearbyGeoTags(lat, lon, desiredProximity, keyword) {
+    let nearbyGeoTags = this.getNearbyGeoTags(lat,lon, desiredProximity);
     let nameArray = nearbyGeoTags.filter((GeoTag) =>
       GeoTag.name.includes(keyword)
     );

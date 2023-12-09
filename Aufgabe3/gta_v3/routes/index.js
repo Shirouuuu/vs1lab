@@ -1,46 +1,18 @@
 // File origin: VS1LAB A3
 
 /**
- * This script defines the main router of the GeoTag server.
- * It's a template for exercise VS1lab/Aufgabe3
- * Complete all TODOs in the code documentation.
- */
-
-/**
  * Define module dependencies.
  */
-
 const express = require("express");
 const router = express.Router();
 
-/**
- * The module "geotag" exports a class GeoTagStore.
- * It represents geotags.
- *
- * TODO: implement the module in the file "../models/geotag.js"
- */
-// eslint-disable-next-line no-unused-vars
 const GeoTag = require("../models/geotag");
 
-/**
- * The module "geotag-store" exports a class GeoTagStore.
- * It provides an in-memory store for geotag objects.
- *
- * TODO: implement the module in the file "../models/geotag-store.js"
- */
-// eslint-disable-next-line no-unused-vars
 const GeoTagStore = require("../models/geotag-store");
 
-/**
- * Route '/' for HTTP 'GET' requests.
- * (http://expressjs.com/de/4x/api.html#app.get.method)
- *
- * Requests cary no parameters
- *
- * As response, the ejs-template is rendered without geotag objects.
- */
+const GeoTagExamples = require("../models/geotag-examples");
 
-// TODO: extend the following route example if necessary
+
 router.get("/", (req, res) => {
   res.render("index", { 
     latitude: '', //DEFINE LATITUDE FOR EJS TEMPLATE
@@ -48,75 +20,44 @@ router.get("/", (req, res) => {
     taglist: [] });
 });
 
-/**
- * Route '/tagging' for HTTP 'POST' requests.
- * (http://expressjs.com/de/4x/api.html#app.post.method)
- *
- * Requests cary the fields of the tagging form in the body.
- * (http://expressjs.com/de/4x/api.html#req.body)
- *
- * Based on the form data, a new geotag is created and stored.
- *
- * As response, the ejs-template is rendered with geotag objects.
- * All result objects are located in the proximity of the new geotag.
- * To this end, "GeoTagStore" provides a method to search geotags
- * by radius around a given location.
- */
 
-//ADD GEOTAG FUNCTIONALITY
-const geoTagStore = new GeoTagStore();
+const geoTagStore = new GeoTagStore(); //Create new geoTagStore object
 
 router.post("/tagging", (req, res) => {
-  geoTagStore.addGeoTag(req.body);
-  console.log(req.body);
+  geoTagStore.addGeoTag(new GeoTag(req.body.name, req.body.latitude, req.body.longitude, req.body.hashtag)); //Add geoTag with attributes from request body
+  res.render('index', { 
+    latitude: req.body.latitude,
+    longitude: req.body.longitude,
+    taglist: geoTagStore.getNearbyGeoTags( //get all geoTags in the proximity of 9999
+      req.body.latitude, 
+      req.body.longitude, 
+      9999 //proximity in km
+    ) 
+});
+});
+
+router.post("/discovery", (req, res) => {
+  let search = req.body.searchterm; //keyword for the filter
 
   res.render('index', { 
     latitude: req.body.latitude,
     longitude: req.body.longitude,
-    taglist: geoTagStore.getNearbyGeoTags(
+    taglist: geoTagStore.searchNearbyGeoTags(
       req.body.latitude, 
       req.body.longitude, 
-      500
+      9999, //proximity in km
+      search
     ) 
 });
-res.redirect("/"); //Redirect to Homepage
-});
-/**
- * Route '/discovery' for HTTP 'POST' requests.
- * (http://expressjs.com/de/4x/api.html#app.post.method)
- *
- * Requests cary the fields of the discovery form in the body.
- * This includes coordinates and an optional search term.
- * (http://expressjs.com/de/4x/api.html#req.body)
- *
- * As response, the ejs-template is rendered with geotag objects.
- * All result objects are located in the proximity of the given coordinates.
- * If a search term is given, the results are further filtered to contain
- * the term as a part of their names or hashtags.
- * To this end, "GeoTagStore" provides methods to search geotags
- * by radius and keyword.
- */
-
-// TODO: ... your code here ...
-//SEARCH FUNCTIONALITY
-router.post("/discovery", (req, res) => {
-  let search = req.body.searchterm;
-  const geoTag = {
-    latitude: req.body.latitude,
-    longitude: req.body.longitude,
-  };
-  geoTagStore.searchNearbyGeoTags(geoTag, 9999, search);
-  res.redirect("/");
 });
 
-//FILL ARRAY WITH EXAMPLES
-const GeoTagExamples = require("../models/geotag-examples");
-const tags = GeoTagExamples.tagList;
+//Import example entries to geoTagStore
+const tags = GeoTagExamples.tagList; 
 
-tags.forEach((tag) => {
-  const [name, latitude, longitude, hashtag] = tag;
-  const GeoTag = { name, latitude, longitude, hashtag };
-  geoTagStore.addGeoTag(GeoTag);
+tags.forEach((tag) => { //for each entry of taglist split entry into those four variables
+  const [name, latitude, longitude, hashtag] = tag; //name indices
+  const geoTag = new GeoTag(name, latitude, longitude, hashtag); //create new geoTag with indices
+  geoTagStore.addGeoTag(geoTag); //add geoTag to geoTagStore
 });
 
 module.exports = router;
