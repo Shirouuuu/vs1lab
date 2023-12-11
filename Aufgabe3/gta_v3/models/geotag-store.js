@@ -39,13 +39,7 @@ class InMemoryGeoTagStore {
   }
 
   removeGeoTag(locationName) {
-    for (let i = 0; i < this.arrayLength(); i++) {
-      currentGeoTag = this.#geotagArray[i];
-      if (currentGeoTag.locationName == locationName) {
-        this.#geotagArray.splice(i, 1);
-        return;
-      }
-    }
+    this.#geotagArray = this.#geotagArray.filter((tag) => tag.name != locationName) //changed remove function
   }
 
   distance(lat1, lon1, lat2, lon2) {
