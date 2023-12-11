@@ -5,11 +5,8 @@
  */
 const express = require("express");
 const router = express.Router();
-
 const GeoTag = require("../models/geotag");
-
 const GeoTagStore = require("../models/geotag-store");
-
 const GeoTagExamples = require("../models/geotag-examples");
 
 router.get("/", (req, res) => {
