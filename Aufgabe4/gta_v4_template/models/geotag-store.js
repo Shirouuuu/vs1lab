@@ -39,38 +39,18 @@ class InMemoryGeoTagStore {
   }
 
   removeGeoTag(locationName) {
-    this.#geotagArray = this.#geotagArray.filter((tag) => tag.name != locationName) //changed remove function
+    this.#geotagArray = this.#geotagArray.filter(
+      (tag) => tag.name != locationName
+    ); //changed remove function
   }
 
-  distance(lat1, lon1, lat2, lon2) {
-    //Haversine formula to calculate distance between two coordinates on a globe "as the crow flies"
-    const r = 6371; // km
-    const p = Math.PI / 180;
-
-    const a =
-      0.5 -
-      Math.cos((lat2 - lat1) * p) / 2 +
-      (Math.cos(lat1 * p) *
-        Math.cos(lat2 * p) *
-        (1 - Math.cos((lon2 - lon1) * p))) /
-        2;
-
-    return 2 * r * Math.asin(Math.sqrt(a));
-  }
-
-  getNearbyGeoTags(lat1, lon1, desiredProximity) {
-    let nearbyGeoTags = [];
-
-    for (let i = 0; i < this.arrayLength(); i++) {
-      let currentGeoTag = this.#geotagArray[i];
-      let lat2 = currentGeoTag.latitude;
-      let lon2 = currentGeoTag.longitude;
-      let distance = this.distance(lat1, lon1, lat2, lon2);
-      if (distance <= desiredProximity) {
-        nearbyGeoTags.push(currentGeoTag);
-      }
-    }
-    return nearbyGeoTags;
+  getNearbyGeoTags(latitude, longitude, desiredProximity) {
+    return this.#geotagArray.filter(
+      (tag) =>
+        (tag.latitude - latitude) * (tag.latitude - latitude) +
+          (tag.longitude - longitude) * (tag.longitude - longitude) <=
+        desiredProximity * desiredProximity
+    );
   }
 
   searchNearbyGeoTags(lat, lon, desiredProximity, keyword) {

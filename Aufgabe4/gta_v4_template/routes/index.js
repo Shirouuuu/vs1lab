@@ -10,10 +10,10 @@
  * Define module dependencies.
  */
 
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const GeoTag = require('../models/geotag');
-const GeoTagStore = require('../models/geotag-store');
+const GeoTag = require("../models/geotag");
+const GeoTagStore = require("../models/geotag-store");
 const GeoTagExamples = require("../models/geotag-examples");
 
 // App routes (A3)
@@ -97,8 +97,32 @@ tags.forEach((tag) => {
  * If 'latitude' and 'longitude' are available, it will be further filtered based on radius.
  */
 
-// TODO: ... your code here ...
+router.get("/api/geotags", function (req, res) {
+  const { latitude, longitude, searchterm } = req.query;
+  console.log(latitude, longitude, searchterm);
 
+  let geotagArray = geoTagStore.geotagArray;
+
+  if (latitude && longitude) {
+    //lat lon provided
+    geotagArray = geoTagStore.getNearbyGeoTags(latitude, longitude, 100);
+  }
+  if (searchterm) {
+    //only searchtermn provided
+    geotagArray = geotagArray.filter(
+      (tag) => tag.name.includes(searchterm) || tag.hashtag.includes(searchterm)
+    );
+  } else if (searchterm) {
+    // both provided
+    geotagArray = geoTagStore.searchNearbyGeoTags(
+      parseFloat(latitude),
+      parseFloat(longitude),
+      100,
+      searchterm
+    );
+  }
+  res.send(JSON.stringify(geotagArray));
+});
 
 /**
  * Route '/api/geotags' for HTTP 'POST' requests.
@@ -113,7 +137,6 @@ tags.forEach((tag) => {
 
 // TODO: ... your code here ...
 
-
 /**
  * Route '/api/geotags/:id' for HTTP 'GET' requests.
  * (http://expressjs.com/de/4x/api.html#app.get.method)
@@ -126,23 +149,21 @@ tags.forEach((tag) => {
 
 // TODO: ... your code here ...
 
-
 /**
  * Route '/api/geotags/:id' for HTTP 'PUT' requests.
  * (http://expressjs.com/de/4x/api.html#app.put.method)
  *
  * Requests contain the ID of a tag in the path.
  * (http://expressjs.com/de/4x/api.html#req.params)
- * 
+ *
  * Requests contain a GeoTag as JSON in the body.
  * (http://expressjs.com/de/4x/api.html#req.query)
  *
  * Changes the tag with the corresponding ID to the sent value.
- * The updated resource is rendered as JSON in the response. 
+ * The updated resource is rendered as JSON in the response.
  */
 
 // TODO: ... your code here ...
-
 
 /**
  * Route '/api/geotags/:id' for HTTP 'DELETE' requests.
