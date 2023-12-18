@@ -98,14 +98,14 @@ tags.forEach((tag) => {
  */
 
 router.get("/api/geotags", function (req, res) {
-  const { latitude, longitude, searchterm } = req.query;
+  const { latitude, longitude, searchterm, radius } = req.query;
   console.log(latitude, longitude, searchterm);
 
   let geotagArray = geoTagStore.geotagArray;
 
   if (latitude && longitude) {
     //lat lon provided
-    geotagArray = geoTagStore.getNearbyGeoTags(latitude, longitude, 100);
+    geotagArray = geoTagStore.getNearbyGeoTags(latitude, longitude, radius);
   }
   if (searchterm) {
     //only searchtermn provided
@@ -117,7 +117,7 @@ router.get("/api/geotags", function (req, res) {
     geotagArray = geoTagStore.searchNearbyGeoTags(
       parseFloat(latitude),
       parseFloat(longitude),
-      100,
+      radius,
       searchterm
     );
   }
@@ -135,7 +135,13 @@ router.get("/api/geotags", function (req, res) {
  * The new resource is rendered as JSON in the response.
  */
 
-// TODO: ... your code here ...
+router.post("/api/geotags", function (req, res) {
+  const { name, latitude, longitude, hashtag, id } = req.body;
+  const newGeoTag = new GeoTag(name, latitude, longitude, hashtag);
+  geoTagStore.addGeoTag(newGeoTag);
+
+  res.location("/api/geotags/${newGeoTag.id}").status(201).json(newGeoTag);
+});
 
 /**
  * Route '/api/geotags/:id' for HTTP 'GET' requests.
@@ -147,7 +153,14 @@ router.get("/api/geotags", function (req, res) {
  * The requested tag is rendered as JSON in the response.
  */
 
-// TODO: ... your code here ...
+router.get("/api/geotags/:id", function (req, res) {
+  const id = req.params.id;
+  const geoTag = geoTagStore.geotagArray[id];
+  if (!geoTag) {
+    res.send("There is no geotag with id of " + id);
+  }
+  res.send(JSON.stringify(geoTag));
+});
 
 /**
  * Route '/api/geotags/:id' for HTTP 'PUT' requests.
@@ -163,7 +176,24 @@ router.get("/api/geotags", function (req, res) {
  * The updated resource is rendered as JSON in the response.
  */
 
-// TODO: ... your code here ...
+router.put("/api/geotags/:id", function (req, res) {
+  const { name, latitude, longitude, hashtag } = req.body;
+
+  const id = req.params.id;
+  console.log(id);
+
+  const geoTagToUpdate = geoTagStore.geotagArray[id];
+
+  console.log(geoTagToUpdate);
+
+  if (geoTagToUpdate) {
+    geoTagToUpdate.name = name;
+    geoTagToUpdate.latitude = latitude;
+    geoTagToUpdate.longitude = longitude;
+    geoTagToUpdate.hashtag = hashtag;
+    res.send(JSON.stringify(geoTagToUpdate));
+  } else res.send("GeoTag to Update not found!");
+});
 
 /**
  * Route '/api/geotags/:id' for HTTP 'DELETE' requests.
@@ -176,6 +206,17 @@ router.get("/api/geotags", function (req, res) {
  * The deleted resource is rendered as JSON in the response.
  */
 
-// TODO: ... your code here ...
+router.delete("/api/geotags/:id", function (req, res) {
+  const id = req.params.id;
+  const geoTagToDelete = geoTagStore.geotagArray[id];
+  if (!geoTagToDelete) {
+    res.send(
+      "Could not delete geotag since there is no geotag with id of " + id
+    );
+  } else {
+    geoTagStore.removeGeoTag(geoTagToDelete.name);
+    res.send(JSON.stringify(geoTagToDelete));
+  }
+});
 
 module.exports = router;

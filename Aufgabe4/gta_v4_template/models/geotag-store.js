@@ -34,10 +34,11 @@ class InMemoryGeoTagStore {
     return this.#geotagArray.length;
   }
 
-  addGeoTag(GeoTag) {
-    this.#geotagArray.push(GeoTag);
+  addGeoTag(geoTag) {
+    const index = this.#geotagArray.length;
+    geoTag.id = index;
+    this.#geotagArray.push(geoTag);
   }
-
   removeGeoTag(locationName) {
     this.#geotagArray = this.#geotagArray.filter(
       (tag) => tag.name != locationName
