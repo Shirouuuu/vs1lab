@@ -97,30 +97,54 @@ tags.forEach((tag) => {
  * If 'latitude' and 'longitude' are available, it will be further filtered based on radius.
  */
 router.get("/api/geotags", function (req, res) {
+  //Extract query from request
   const { latitude, longitude, searchterm } = req.query;
+
+  //Declare variable for array with geotags
   let geotagArray = geoTagStore.geotagArray;
 
+  //If latitude and longitude are given
   if (latitude && longitude) {
+    //If both lat and lon + searchterm are given
     if (searchterm) {
+      /**
+       * parameters:
+       *  - latitude
+       *  - longitude
+       *  - radius in km
+       *  - keyword
+       * returns: array filtered by radius and keyword
+       */
       geotagArray = geoTagStore.searchNearbyGeoTags(
         parseFloat(latitude),
         parseFloat(longitude),
         50,
         searchterm
       );
+      //Only latitude and longitude are given
     } else {
+      /**
+       * parameters:
+       *  - latitude
+       *  - longitude
+       *  - radius in km
+       * returns: array filtered by radius
+       */
       geotagArray = geoTagStore.getNearbyGeoTags(
         parseFloat(latitude),
         parseFloat(longitude),
         50
       );
     }
+    //Only searchterm is given
   } else if (searchterm) {
+    //filter array with matching geotag names and hashtags
     geotagArray = geotagArray.filter(
       (tag) => tag.name.includes(searchterm) || tag.hashtag.includes(searchterm)
     );
   }
 
+  //Send lat, lon, and hand over geotagArray for taglist
   res.send({ latitude, longitude, taglist: geotagArray });
 });
 
@@ -135,10 +159,34 @@ router.get("/api/geotags", function (req, res) {
  * The new resource is rendered as JSON in the response.
  */
 router.post("/api/geotags", function (req, res) {
-  const { name, latitude, longitude, hashtag } = req.body;
+  //extract req body
+  let { name, latitude, longitude, hashtag } = req.body;
+
+  //logging
+  console.log("-".repeat(100));
+  console.log(
+    "POST REQUEST TRIGGERED:\nname: " +
+      name +
+      "\nlat: " +
+      latitude +
+      "\nlon: " +
+      longitude +
+      "\nhashtag: " +
+      hashtag
+  );
+  console.log("-".repeat(100));
+
+  //If user denied location tracking lat and lon will be set to "unknown"
+  if (!latitude && !longitude) {
+    latitude = "unkown";
+    longitude = "unknown";
+  }
+
+  //Create and add new Geotag
   const newGeoTag = new GeoTag(name, latitude, longitude, hashtag);
   geoTagStore.addGeoTag(newGeoTag);
 
+  //Send  new Geotag as JSON as response with location header and status 201
   res.location("/api/geotags/${newGeoTag.id}").status(201).json(newGeoTag);
 });
 
@@ -151,13 +199,31 @@ router.post("/api/geotags", function (req, res) {
  *
  * The requested tag is rendered as JSON in the response.
  */
-
 router.get("/api/geotags/:id", function (req, res) {
+  //Extract id from path
   const id = req.params.id;
+
+  //Geotag with associated id
   const geoTag = geoTagStore.geotagArray[id];
+
+  //logging
+  console.log("-".repeat(100));
+  console.log(
+    "GET GEOTAG WITH ID REQUEST TRIGGERED:\nid: " +
+      id +
+      "\ngeotag: " +
+      JSON.stringify(geoTag) +
+      "\ntypeof: " +
+      geoTag.constructor.name
+  );
+  console.log("-".repeat(100));
+
+  //If variable geoTag is empty -> the geotag does not exist
   if (!geoTag) {
     res.send("There is no geotag with id of " + id);
   }
+
+  //Send requested geotag at given id as JSON
   res.send(JSON.stringify(geoTag));
 });
 
@@ -174,23 +240,45 @@ router.get("/api/geotags/:id", function (req, res) {
  * Changes the tag with the corresponding ID to the sent value.
  * The updated resource is rendered as JSON in the response.
  */
-
 router.put("/api/geotags/:id", function (req, res) {
+  //Extract body from request and id from path
   const { name, latitude, longitude, hashtag } = req.body;
-
   const id = req.params.id;
-  console.log(id);
 
+  //Geotag with associated id which will be overwritten
   const geoTagToUpdate = geoTagStore.geotagArray[id];
 
-  console.log(geoTagToUpdate);
+  //logging
+  console.log("-".repeat(100));
+  console.log(
+    "POST REQUEST TRIGGERED:\nname: " +
+      name +
+      "\nlat: " +
+      latitude +
+      "\nlon: " +
+      longitude +
+      "\nhashtag: " +
+      hashtag +
+      "\nid: " +
+      id +
+      "\ngeotagToUpdate: " +
+      JSON.stringify(geoTagToUpdate) +
+      "\ntypeof: " +
+      geoTagToUpdate.constructor.name
+  );
+  console.log("-".repeat(100));
 
+  //If geoTagToUpdate is not empty overwrite name, lat, lon, hashtag
   if (geoTagToUpdate) {
     geoTagToUpdate.name = name;
     geoTagToUpdate.latitude = latitude;
     geoTagToUpdate.longitude = longitude;
     geoTagToUpdate.hashtag = hashtag;
+
+    //Send updated geotag
     res.send(JSON.stringify(geoTagToUpdate));
+
+    //Else send this
   } else res.send("GeoTag to Update not found!");
 });
 
@@ -204,17 +292,24 @@ router.put("/api/geotags/:id", function (req, res) {
  * Deletes the tag with the corresponding ID.
  * The deleted resource is rendered as JSON in the response.
  */
-
 router.delete("/api/geotags/:id", function (req, res) {
+  //Extract id from path
   const id = req.params.id;
+
+  //Geotag which will be deleted
   const geoTagToDelete = geoTagStore.geotagArray[id];
-  if (!geoTagToDelete) {
+
+  //If Geotag is not empty remove Geotag with matching name
+  if (geoTagToDelete) {
+    geoTagStore.removeGeoTag(geoTagToDelete.name);
+
+    //Send deleted geotag as JSON as response
+    res.send(JSON.stringify(geoTagToDelete));
+  } else {
+    //Else send this
     res.send(
       "Could not delete geotag since there is no geotag with id of " + id
     );
-  } else {
-    geoTagStore.removeGeoTag(geoTagToDelete.name);
-    res.send(JSON.stringify(geoTagToDelete));
   }
 });
 
