@@ -96,37 +96,32 @@ tags.forEach((tag) => {
  * If 'searchterm' is present, it will be filtered by search term.
  * If 'latitude' and 'longitude' are available, it will be further filtered based on radius.
  */
-
 router.get("/api/geotags", function (req, res) {
   const { latitude, longitude, searchterm } = req.query;
-  console.log(latitude, longitude, searchterm);
-
   let geotagArray = geoTagStore.geotagArray;
 
   if (latitude && longitude) {
-    //lat lon provided
-    geotagArray = geoTagStore.getNearbyGeoTags(latitude, longitude, 50);
-  }
-  if (searchterm) {
-    //only searchtermn provided
+    if (searchterm) {
+      geotagArray = geoTagStore.searchNearbyGeoTags(
+        parseFloat(latitude),
+        parseFloat(longitude),
+        50,
+        searchterm
+      );
+    } else {
+      geotagArray = geoTagStore.getNearbyGeoTags(
+        parseFloat(latitude),
+        parseFloat(longitude),
+        50
+      );
+    }
+  } else if (searchterm) {
     geotagArray = geotagArray.filter(
       (tag) => tag.name.includes(searchterm) || tag.hashtag.includes(searchterm)
     );
-  } else if (searchterm) {
-    // both provided
-    geotagArray = geoTagStore.searchNearbyGeoTags(
-      parseFloat(latitude),
-      parseFloat(longitude),
-      50,
-      searchterm
-    );
   }
-  res.send({ latitude: latitude, longitude: longitude, taglist: geotagArray });
-  /* res.render( "index", {
-    latitude: latitude,
-    longitude: longitude,
-    taglist: geotagArray
-  } ); */
+
+  res.send({ latitude, longitude, taglist: geotagArray });
 });
 
 /**
@@ -139,7 +134,6 @@ router.get("/api/geotags", function (req, res) {
  * The URL of the new resource is returned in the header as a response.
  * The new resource is rendered as JSON in the response.
  */
-
 router.post("/api/geotags", function (req, res) {
   const { name, latitude, longitude, hashtag } = req.body;
   const newGeoTag = new GeoTag(name, latitude, longitude, hashtag);
