@@ -3,7 +3,11 @@
 /* eslint-disable no-unused-vars */
 
 console.log("The geoTagging script is going to start...");
-
+/**
+ *
+ *
+ * @return {*} 
+ */
 function updateLocation() {
   var img = document.getElementById("mapView"); //create var for map img
   let mapmanager = new MapManager("wlvNEFoQ5OCICOpOR62Y4VzcsPDWcZJJ"); // create MapManager object with custom API key
@@ -38,7 +42,82 @@ function updateLocation() {
   }); // findLocation()-call with callback-function as argument: function(helper){...}
 }
 
+function taggingFormEventListener() {
+  const taggingForm = document.getElementById("tag-form");
+
+  taggingForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    const data = new FormData(taggingForm); //4 arrays with key/value pair lat lon hashtag name
+    //use data from FormData and paste it into js object which will be later on stringified to JSON
+    const dataAsJSON = {};
+    data.forEach((value, key) => {
+      dataAsJSON[key] = value;
+    });
+
+    fetch("/api/geotags", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(dataAsJSON),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        const tagListElement = document.getElementById("discoveryResults");
+
+        const { name, latitude, longitude, hashtag } = data;
+        const listItem = document.createElement("li");
+        listItem.textContent = `${name} (${latitude},${longitude}) ${hashtag}`;
+        tagListElement.appendChild(listItem);
+      });
+  });
+}
+
+function discoveryFormEventListener() {
+  const discoveryForm = document.getElementById("discoveryFilterForm");
+
+  discoveryForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    const searchterm = document.getElementById("searchterm_input").value;
+    const latitude = document.getElementById("latitude_hidden_input").value;
+    const longitude = document.getElementById("longitude_hidden_input").value;
+
+    const queryParams = new URLSearchParams({
+      latitude: latitude,
+      longitude: longitude,
+      searchterm: searchterm,
+    });
+
+    fetch("/api/geotags?" + queryParams.toString(), {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        // Erhaltene Daten in die taglist im EJS-Template einfügen
+        const tagListElement = document.getElementById("discoveryResults");
+        tagListElement.innerHTML = ""; // Leeren der aktuellen Listenelemente
+
+        data.taglist.forEach((gtag) => {
+          const listItem = document.createElement("li");
+          listItem.textContent = `${gtag.name} (${gtag.latitude},${gtag.longitude}) ${gtag.hashtag}`;
+          tagListElement.appendChild(listItem);
+        });
+      });
+  });
+}
+
+function ajaxFetch() {
+  taggingFormEventListener();
+  discoveryFormEventListener();
+}
+
 // Wait for the page to fully load its DOM content, then call updateLocation
 document.addEventListener("DOMContentLoaded", () => {
   updateLocation(); // call function above
+  ajaxFetch();
 });

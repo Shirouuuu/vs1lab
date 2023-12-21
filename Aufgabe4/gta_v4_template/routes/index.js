@@ -98,14 +98,14 @@ tags.forEach((tag) => {
  */
 
 router.get("/api/geotags", function (req, res) {
-  const { latitude, longitude, searchterm, radius } = req.query;
+  const { latitude, longitude, searchterm } = req.query;
   console.log(latitude, longitude, searchterm);
 
   let geotagArray = geoTagStore.geotagArray;
 
   if (latitude && longitude) {
     //lat lon provided
-    geotagArray = geoTagStore.getNearbyGeoTags(latitude, longitude, radius);
+    geotagArray = geoTagStore.getNearbyGeoTags(latitude, longitude, 50);
   }
   if (searchterm) {
     //only searchtermn provided
@@ -117,11 +117,16 @@ router.get("/api/geotags", function (req, res) {
     geotagArray = geoTagStore.searchNearbyGeoTags(
       parseFloat(latitude),
       parseFloat(longitude),
-      radius,
+      50,
       searchterm
     );
   }
-  res.send(JSON.stringify(geotagArray));
+  res.send({ latitude: latitude, longitude: longitude, taglist: geotagArray });
+  /* res.render( "index", {
+    latitude: latitude,
+    longitude: longitude,
+    taglist: geotagArray
+  } ); */
 });
 
 /**
@@ -136,7 +141,7 @@ router.get("/api/geotags", function (req, res) {
  */
 
 router.post("/api/geotags", function (req, res) {
-  const { name, latitude, longitude, hashtag, id } = req.body;
+  const { name, latitude, longitude, hashtag } = req.body;
   const newGeoTag = new GeoTag(name, latitude, longitude, hashtag);
   geoTagStore.addGeoTag(newGeoTag);
 
