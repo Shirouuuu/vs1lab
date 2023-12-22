@@ -144,6 +144,21 @@ router.get("/api/geotags", function (req, res) {
     );
   }
 
+  //logging
+  console.log("-".repeat(100));
+  console.log(
+    "GET REQUEST TRIGGERED:" +
+      "\nlat: " +
+      latitude +
+      "\nlon: " +
+      longitude +
+      "\nsearchterm: " +
+      searchterm +
+      "\ngeotagarray: " +
+      JSON.stringify(geotagArray)
+  );
+  console.log("-".repeat(100));
+
   //Send lat, lon, and hand over geotagArray for taglist
   res.send({ latitude, longitude, taglist: geotagArray });
 });
@@ -212,10 +227,13 @@ router.get("/api/geotags/:id", function (req, res) {
     "GET GEOTAG WITH ID REQUEST TRIGGERED:\nid: " +
       id +
       "\ngeotag: " +
-      JSON.stringify(geoTag) +
-      "\ntypeof: " +
-      geoTag.constructor.name
+      JSON.stringify(geoTag)
   );
+  //also log geoTag class but catch error if geotag is undefined
+  if(geoTag){
+    console.log("\ntypeof: " +
+    geoTag.constructor.name)
+  }
   console.log("-".repeat(100));
 
   //If variable geoTag is empty -> the geotag does not exist
