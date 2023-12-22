@@ -93,6 +93,7 @@ function taggingFormEventListener() {
 
         //Extract variables from data (order does not matter)
         const { name, latitude, longitude, hashtag } = data;
+        const newGeoTag = { name, latitude, longitude, hashtag };
 
         //Create listElmt
         const listItem = document.createElement("li");
@@ -100,6 +101,19 @@ function taggingFormEventListener() {
         //Fill with content "name (lat,lon) hashtag"
         listItem.textContent = `${name} (${latitude},${longitude}) ${hashtag}`;
         taglistHTML.appendChild(listItem);
+
+        //Update Map with geotags
+        var img = document.getElementById("mapView");
+        let mapmanager = new MapManager("wlvNEFoQ5OCICOpOR62Y4VzcsPDWcZJJ");
+
+        //create taglist with newGeotag only (UNWANTED BEHAVIOR)
+        const taglist = [newGeoTag];
+
+        //Call getMapUrl() with new taglist
+        mapQuestUrl = mapmanager.getMapUrl(latitude, longitude, taglist);
+
+        //Overwrite old map
+        img.src = mapQuestUrl;
       });
   });
 }
@@ -152,6 +166,16 @@ function discoveryFormEventListener() {
           listItem.textContent = `${gtag.name} (${gtag.latitude},${gtag.longitude}) ${gtag.hashtag}`;
           tagListElement.appendChild(listItem);
         });
+
+        //Update Map with geotags
+        var img = document.getElementById("mapView");
+        let mapmanager = new MapManager("wlvNEFoQ5OCICOpOR62Y4VzcsPDWcZJJ");
+
+        //Call getMapUrl() with new taglist
+        mapQuestUrl = mapmanager.getMapUrl(latitude, longitude, data.taglist);
+
+        //Overwrite old map
+        img.src = mapQuestUrl;
       });
   });
 }
