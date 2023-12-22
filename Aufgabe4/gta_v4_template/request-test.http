@@ -1,31 +1,54 @@
-
+//TEST POST SUCCESSFUL
 ### 
 POST http://localhost:3000/api/geotags/
 Content-Type: application/json
 
 {
   "name": "Zuhause",
-  "latitude": 48.689828750000004,
-  "longitude":8.138015273157894,
+  "latitude": 49.009056,
+  "longitude":8.427388,
   "hashtag": "#home"
 }
-
+//TEST GET WITH ID SUCCESSFUL
 ###
 GET http://localhost:3000/api/geotags/11
 
+//TEST PUT SUCCESSFUL
 ### 
 PUT http://localhost:3000/api/geotags/11
 Content-Type: application/json
 
 {
   "name": "Neues Zuhause",
-  "latitude": 49.00905655,
-  "longitude":8.427388434952388,
+  "latitude": 48.748198,
+  "longitude":8.046403,
   "hashtag": "#home2"
 }
 
+//TEST PUT FAIL
+### 
+PUT http://localhost:3000/api/geotags/345
+Content-Type: application/json
+
+{
+  "name": "FAIL",
+  "latitude": 48.696934,
+  "longitude":8.111639,
+  "hashtag": "fail"
+}
+
+//TEST DELETE SUCCESSFUL 
 ###
 DELETE http://localhost:3000/api/geotags/11
 
+//TEST DELETE FAIL
+###
+DELETE http://localhost:3000/api/geotags/345
+
+//TEST GET WITH ID FAIL
 ###
 GET http://localhost:3000/api/geotags/11
+
+//TEST GET SUCCESSFUL
+###
+GET  http://localhost:3000/api/geotags

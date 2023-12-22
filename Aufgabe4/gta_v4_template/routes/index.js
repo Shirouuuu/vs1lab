@@ -230,9 +230,8 @@ router.get("/api/geotags/:id", function (req, res) {
       JSON.stringify(geoTag)
   );
   //also log geoTag class but catch error if geotag is undefined
-  if(geoTag){
-    console.log("\ntypeof: " +
-    geoTag.constructor.name)
+  if (geoTag) {
+    console.log("\ntypeof: " + geoTag.constructor.name);
   }
   console.log("-".repeat(100));
 
@@ -269,7 +268,7 @@ router.put("/api/geotags/:id", function (req, res) {
   //logging
   console.log("-".repeat(100));
   console.log(
-    "POST REQUEST TRIGGERED:\nname: " +
+    "PUT REQUEST TRIGGERED:\nname: " +
       name +
       "\nlat: " +
       latitude +
@@ -280,10 +279,13 @@ router.put("/api/geotags/:id", function (req, res) {
       "\nid: " +
       id +
       "\ngeotagToUpdate: " +
-      JSON.stringify(geoTagToUpdate) +
-      "\ntypeof: " +
-      geoTagToUpdate.constructor.name
+      JSON.stringify(geoTagToUpdate)
   );
+  //also log geoTag class but catch error if geotag is undefined
+  if (geoTagToUpdate) {
+    console.log("\ntypeof: " + geoTagToUpdate.constructor.name);
+  }
+
   console.log("-".repeat(100));
 
   //If geoTagToUpdate is not empty overwrite name, lat, lon, hashtag
