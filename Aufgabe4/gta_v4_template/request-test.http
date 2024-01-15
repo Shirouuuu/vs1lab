@@ -43,7 +43,7 @@ DELETE http://localhost:3000/api/geotags/11
 
 //TEST DELETE FAIL
 ###
-DELETE http://localhost:3000/api/geotags/345
+DELETE http://localhost:3000/api/geotags/8
 
 //TEST GET WITH ID FAIL
 ###

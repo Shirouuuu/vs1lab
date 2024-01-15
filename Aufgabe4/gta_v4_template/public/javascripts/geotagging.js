@@ -103,10 +103,10 @@ function taggingFormEventListener() {
         taglistHTML.appendChild(listItem);
 
         //Update Map with geotags
-        var img = document.getElementById("mapView");
+        let img = document.getElementById("mapView");
         let mapmanager = new MapManager("wlvNEFoQ5OCICOpOR62Y4VzcsPDWcZJJ");
 
-        //create taglist with newGeotag only (UNWANTED BEHAVIOR)
+        //create taglist with newGeotag only
         const taglist = [newGeoTag];
 
         //Call getMapUrl() with new taglist
@@ -157,10 +157,10 @@ function discoveryFormEventListener() {
         );
         console.log("-".repeat(100));
 
-        //Empty current fill
+        //Empty current displayed discoveryResults
         tagListElement.innerHTML = "";
 
-        //Iterate through and append to list
+        //Iterate through data with filtered geotags and append to list
         data.taglist.forEach((gtag) => {
           const listItem = document.createElement("li");
           listItem.textContent = `${gtag.name} (${gtag.latitude},${gtag.longitude}) ${gtag.hashtag}`;

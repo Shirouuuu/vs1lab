@@ -193,7 +193,7 @@ router.post("/api/geotags", function (req, res) {
 
   //If user denied location tracking lat and lon will be set to "unknown"
   if (!latitude && !longitude) {
-    latitude = "unkown";
+    latitude = "unknown";
     longitude = "unknown";
   }
 
@@ -321,7 +321,8 @@ router.delete("/api/geotags/:id", function (req, res) {
 
   //If Geotag is not empty remove Geotag with matching name
   if (geoTagToDelete) {
-    geoTagStore.removeGeoTag(geoTagToDelete.name);
+    //geoTagStore.removeGeoTag(geoTagToDelete.name);
+    geoTagStore.removeById(id);
 
     //Send deleted geotag as JSON as response
     res.send(JSON.stringify(geoTagToDelete));

@@ -45,6 +45,10 @@ class InMemoryGeoTagStore {
     ); //changed remove function
   }
 
+  removeById(id){
+    this.#geotagArray = this.#geotagArray.filter((tag) => tag.id != id);
+  }
+
   getNearbyGeoTags(latitude, longitude, desiredProximity) {
     return this.#geotagArray.filter(
       (tag) =>
